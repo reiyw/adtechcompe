@@ -70,12 +70,7 @@ class BidHandler(tornado.web.RequestHandler):
         adv_id = 'adv_' + str(adv_id_).zfill(2)
 
         bidPrice *= 1000
-        if floorprice < bidPrice:
-            self.set_header('Content-Type', 'application/json')
-            self.write(json.dumps(response))
-        else:
-            self.set_status(204)
-
+        
         # make response
         response = {
             'id' : auction_id,
@@ -83,6 +78,13 @@ class BidHandler(tornado.web.RequestHandler):
             'advertiserId' : adv_id,
             'nurl' : nurl + adv_id
         }
+
+        if floorprice < bidPrice:
+            self.set_header('Content-Type', 'application/json')
+            self.write(json.dumps(response))
+        else:
+            self.set_status(204)
+
 
         # set header
         self.set_header('Content-Type', 'application/json')
